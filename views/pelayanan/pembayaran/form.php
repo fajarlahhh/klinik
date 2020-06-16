@@ -10,14 +10,7 @@
     </section>
     <!-- Main content -->
     <section class="content">
-        <?php                    
-            echo form_open('pembayaran/input/action', array(
-                'method' => 'post',
-                'data-toggle' => 'validator',
-                'target' => '_blank',
-                'onSubmit' => 'return cekStok()'
-            ));
-        ?>
+		<form action="<?php echo site_url('pembayaran/input/action');?>" method="post" onSubmit='return cekStok()' data-toggle="validator" role="form" target="_blank" enctype="multipart/form-data">
         <div class="box box-solid">
             <div class="box-body">
                 <div class="row">
@@ -103,6 +96,11 @@
                             ?>
                         </div>
                         <hr>
+							<div class="form-group input-group-sm has-feedback" id="foto">
+								<label for="fotoPemeriksaan" class="control-label">Upload Foto</label>
+								<input type="file" name="fotoPemeriksaan" id="fotoPemeriksaan" accept="image/*" >
+								<span class="form-control-feedback glyphicon"></span>
+							</div>
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#tab_1" data-toggle="tab" style="text-decoration: none;">Tindakan</a></li>
@@ -373,7 +371,7 @@
                 <a href="<?php echo site_url('pembayaran/data');?>" class="btn btn-sm btn-info">Data Pembayaran</a>
             </div>
         </div>
-        <?php echo form_close();?>
+		</form>
     </section>
 </div>
 <script>
@@ -405,6 +403,11 @@
         $("#namaPasien").val($(this).select2('data')[0]['namaPasien']);
         $("#alamatPasien").val($(this).select2('data')[0]['alamatPasien']);
         $("#namaDokter").val($(this).select2('data')[0]['namaDokter']);
+		if($(this).select2('data')[0]['fotoPemeriksaan']){
+			$("#foto").hide();
+		}else{
+			$("#foto").show();
+		}
         $('form').validator();
         balance();
         $("#detail-brg tr").empty();
@@ -467,7 +470,8 @@
                         idDokter : item.idDokter,
                         tamuDokter : item.tamuDokter,
                         kelaminPasien : item.kelaminPasien,
-                        text : item.idPendaftaran
+                        text : item.idPendaftaran,
+                        fotoPemeriksaan : item.fotoPemeriksaan
                     });
                 });
                 return{

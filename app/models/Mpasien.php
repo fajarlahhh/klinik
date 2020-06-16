@@ -37,6 +37,7 @@ class Mpasien extends CI_Model {
         $this->db->or_like('alamatPasien', $cari);
         $this->db->or_like('telpPasien', $cari);
         $this->db->or_like('pekerjaanPasien', $cari);
+        $this->db->where('rmPasien', $id);
         $this->db->order_by('rmPasien', 'asc');
         return $this->db->get('m_pasien')->result();
     }

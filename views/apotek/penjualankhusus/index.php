@@ -2,11 +2,11 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1 id="menu-title">Data Penjualan Obat</h1>
+        <h1 id="menu-title">Data Penjualan Khusus</h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="#">Apotek</a></li>
-            <li class="active">Data Penjualan Obat</li>
+            <li class="active">Data Penjualan Khusus</li>
         </ol>
     </section>
     <!-- Main content -->
@@ -16,7 +16,7 @@
                 <div class="box box-primary">
                     <div class="box-header">
                         <div class="form-inline">
-                            <a href="<?php echo base_url('penjualan')?>" class="btn btn-sm btn-primary" ><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                            <a href="<?php echo base_url('penjualankhusus')?>" class="btn btn-sm btn-primary" ><span class="glyphicon glyphicon-plus"></span> Tambah</a>
                             <div class="form-group input-group-sm">
                                 <select class="form-control" id="filter-bulan" onchange="filter()">
                                     <?php
@@ -80,8 +80,8 @@
                                         echo "<td>".$row->operator."</td>";
                                         echo "<td>".date("d M Y", strtotime($row->tglBarangKeluar))."</td>";
                                         echo "<td align='right'>";
-                                        echo "&nbsp;<a href='".base_url('penjualan/cetak?no='.urlencode($row->idBarangKeluar))."' class='btn bg-aqua btn-xs' data-toggle='modal' target='_blank'><i class='fa fa-print '></i></a>";
-                                        echo "&nbsp;<a href='".base_url('penjualan/cetakdetail?no='.urlencode($row->idBarangKeluar))."' class='btn bg-success btn-xs' data-toggle='modal' target='_blank'><i class='fa fa-print '></i></a>";
+                                        echo "&nbsp;<a href='".base_url('penjualankhusus/cetak?no='.urlencode($row->idBarangKeluar))."' class='btn bg-aqua btn-xs' data-toggle='modal' target='_blank'><i class='fa fa-print '></i></a>";
+                                        echo "&nbsp;<a href='".base_url('penjualankhusus/cetakdetail?no='.urlencode($row->idBarangKeluar))."' class='btn bg-success btn-xs' data-toggle='modal' target='_blank'><i class='fa fa-print '></i></a>";
                                         if($this->session->userdata('lvlPengguna') < 2){
                                             echo "&nbsp;<a href='#' id='btn-del' class='btn btn-danger btn-xs' data-toggle='modal' data-no='".$row->idBarangKeluar."' data-target='#modal-hapus'><i class='fa fa-trash'></i></a>";
                                         }
@@ -104,6 +104,6 @@
 <!-- /.content-wrapper -->
 <script type="text/javascript">    
     function filter(){
-        window.location = base_url + 'penjualan/data?bln=' + $("#filter-bulan").val() + '&thn=' + $("#filter-tahun").val() + '&q=' + $("#filter-cari").val();
+        window.location = base_url + 'penjualankhusus/data?bln=' + $("#filter-bulan").val() + '&thn=' + $("#filter-tahun").val() + '&q=' + $("#filter-cari").val();
     }
 </script>

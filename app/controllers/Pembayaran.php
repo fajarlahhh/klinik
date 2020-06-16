@@ -104,7 +104,35 @@ class Pembayaran extends CI_Controller {
         $this->sessioncheck->validasi('pembayaran', $this->redirect);
         if($action){
             if($this->session->userdata('lvlPengguna') < 3){
-                $this->db->trans_begin();
+				$this->db->trans_begin();
+				
+				if ($_FILES['fotoPemeriksaan']['name']){
+					$file = '';
+					$this->load->helper('string');
+					
+	
+					$config['upload_path'] = "./upload/";
+					$config['allowed_types'] = '*';
+					$config['file_name'] = random_string('alnum', 16);
+					$this->load->library('upload', $config);
+	
+					if ($this->upload->do_upload('fotoPemeriksaan')) {
+						$file = $this->upload->data();
+						$file = UPLOAD_PATH.$file['file_name'];
+					}
+					else {
+						$dlg = array('pesan' => 'Proses upload data gagal ('.$this->upload->display_errors().')', 'tipe' => 'alert-danger');
+						$this->session->set_flashdata('message', $dlg);
+						redirect($this->input->post('back'));
+					}
+
+					$data  = array(
+						'fotoPemeriksaan' => $file,
+					);
+					$this->load->model('mpemeriksaan');
+					$this->mpemeriksaan->update($this->security->xss_clean($this->input->post('idPendaftaran')), $this->security->xss_clean($data));
+				}
+				
                 $bayar = $this->mpembayaran->get_last();
 
                 if($bayar){

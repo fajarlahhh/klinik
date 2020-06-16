@@ -56,7 +56,8 @@ class Mpembayaran extends CI_Model {
     }
 
     function get_blm_bayar($cari){
-        $this->db->select('a.*, tamuDokter, namaPasien, alamatPasien, telpPasien, pekerjaanPasien, tempatLahirPasien, tglLahirPasien, kelaminPasien');
+        $this->db->select('a.*, tamuDokter, fotoPemeriksaan, namaPasien, alamatPasien, telpPasien, pekerjaanPasien, tempatLahirPasien, tglLahirPasien, kelaminPasien');
+        $this->db->where('statPemeriksaan', 1);
         $this->db->where('statPembayaran', 0);
         $this->db->group_start();
         $this->db->like('a.rmPasien', $cari);
@@ -68,6 +69,7 @@ class Mpembayaran extends CI_Model {
         $this->db->from('t_pendaftaran a');
         $this->db->join('m_pasien b', 'a.rmPasien = b.rmPasien', 'left');
         $this->db->join('m_dokter c', 'a.namaDokter = c.namaDokter', 'left');
+        $this->db->join('t_pemeriksaan d', 'd.idPendaftaran = a.idPendaftaran', 'left');
         return $this->db->get()->result();
     }
 

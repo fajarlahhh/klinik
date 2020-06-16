@@ -1,17 +1,17 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1 id="menu-title" class="action">Input <small>Penjualan Barang</small></h1>
+        <h1 id="menu-title" class="action">Input <small>Penjualan Khusus</small></h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="#">Pelayanan</a></li>
-            <li class="active action">Input Penjualan Barang</li>
+            <li class="active action">Input Penjualan Khusus</li>
         </ol>
     </section>
     <!-- Main content -->
     <section class="content">
         <?php                    
-            echo form_open('penjualan/input/action', array(
+            echo form_open('penjualankhusus/input/action', array(
                 'method' => 'post',
                 'data-toggle' => 'validator',
                 'target' => '_blank',
@@ -258,7 +258,7 @@
                         ));
                     }
                 ?>
-                <a href="<?php echo site_url('penjualan/data');?>" class="btn btn-sm btn-primary">Data Penjualan</a>
+                <a href="<?php echo site_url('penjualankhusus/data');?>" class="btn btn-sm btn-primary">Data Penjualan</a>
             </div>
         </div>
         <?php echo form_close();?>

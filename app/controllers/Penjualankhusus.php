@@ -4,7 +4,7 @@ class Penjualankhusus extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('mpenjualan');
+        $this->load->model('mpenjualankhusus');
         $this->redirect = current_url(). ($_SERVER['QUERY_STRING'] ? '?' .$_SERVER['QUERY_STRING'] : "");
     }
 
@@ -33,14 +33,14 @@ class Penjualankhusus extends CI_Controller {
             'first_url' => site_url('penjualankhusus/data?bln='.$bln.'&thn='.$thn.'&q='.$q),    
             'per_page' => 10,
             'page_query_string' => TRUE,
-            'total_rows' => $this->mpenjualan->total_rows($bln, $thn, $q)
+            'total_rows' => $this->mpenjualankhusus->total_rows($bln, $thn, $q)
         );
 
         $this->load->library('pagination');
         $this->pagination->initialize($config);
         
         $content = array(
-            'data' => $this->mpenjualan->get_limit($bln, $thn, $q, 10, $pg),
+            'data' => $this->mpenjualankhusus->get_limit($bln, $thn, $q, 10, $pg),
             'page' => $this->pagination->create_links(),
             'q' => $q,
             'bln' => $bln,
@@ -86,7 +86,7 @@ class Penjualankhusus extends CI_Controller {
         if($action){
             if($this->session->userdata('lvlPengguna') < 3){
                 $this->db->trans_begin();
-                $bayar = $this->mpenjualan->get_last();
+                $bayar = $this->mpenjualankhusus->get_last();
 
                 if($bayar){
                     $_bayar = substr($bayar->idBarangKeluar,15,4) + 1;
@@ -109,11 +109,11 @@ class Penjualankhusus extends CI_Controller {
                     'tglBarangKeluar' => date('Y-m-d', strtotime($this->input->post("tglBarangKeluar"))),
                     'operator' => $this->session->userdata('nmPengguna')
                 );
-                $this->mpenjualan->insert($this->security->xss_clean($data));
+                $this->mpenjualankhusus->insert($this->security->xss_clean($data));
 
                 $i = 0;
                 foreach($this->input->post("idBarang") as $key){
-                    $this->mpenjualan->insert_barang(
+                    $this->mpenjualankhusus->insert_barang(
                         $this->security->xss_clean(array(
                             'urutBarangKeluar' => $i,
                             'idBarangKeluar' => $nomor,
@@ -167,9 +167,9 @@ class Penjualankhusus extends CI_Controller {
 
     public function cetak(){
         $content = array(
-            'data' => $this->mpenjualan->get_by_id($this->input->get('no')),
-            'resep' => $this->mpenjualan->get_resep($this->input->get('no')),
-            'detail' => $this->mpenjualan->get_detail($this->input->get('no'))
+            'data' => $this->mpenjualankhusus->get_by_id($this->input->get('no')),
+            'resep' => $this->mpenjualankhusus->get_resep($this->input->get('no')),
+            'detail' => $this->mpenjualankhusus->get_detail($this->input->get('no'))
         );
         $this->load->view('apotek/penjualankhusus/kwitansi', $content);
     }
@@ -177,9 +177,9 @@ class Penjualankhusus extends CI_Controller {
 
     public function cetakdetail(){
         $content = array(
-            'data' => $this->mpenjualan->get_by_id($this->input->get('no')),
+            'data' => $this->mpenjualankhusus->get_by_id($this->input->get('no')),
             'resep' => [],
-            'detail' => $this->mpenjualan->get_detail_biasa($this->input->get('no'))
+            'detail' => $this->mpenjualankhusus->get_detail_biasa($this->input->get('no'))
         );
         $this->load->view('apotek/penjualankhusus/kwitansi', $content);
     }
@@ -187,7 +187,7 @@ class Penjualankhusus extends CI_Controller {
     public function delete()
     {
         $this->sessioncheck->validasi('penjualankhusus', $this->redirect);
-        if($this->mpenjualan->delete($this->security->xss_clean($this->input->post('ID')))){
+        if($this->mpenjualankhusus->delete($this->security->xss_clean($this->input->post('ID')))){
             $dlg = array('pesan' => 'Berhasil menghapus data', 'tipe' => 'alert-success');
             $this->session->set_flashdata('message', $dlg);
         }else{

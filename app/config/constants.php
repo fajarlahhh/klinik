@@ -89,3 +89,4 @@ defined('TEMPLATE_COMPONEN_PATH')        OR define('TEMPLATE_COMPONEN_PATH', 'te
 defined('TEMPLATE_PLUGIN_PATH')        OR define('TEMPLATE_PLUGIN_PATH', 'template'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR); // path plugin template
 defined('TEMPLATE_DIST_PATH')        OR define('TEMPLATE_DIST_PATH', 'template'.DIRECTORY_SEPARATOR.'dist'.DIRECTORY_SEPARATOR);
 defined('ASSET_PATH')        OR define('ASSET_PATH', 'assets'. DIRECTORY_SEPARATOR);
+defined('UPLOAD_PATH')        OR define('UPLOAD_PATH', 'uploads/');
