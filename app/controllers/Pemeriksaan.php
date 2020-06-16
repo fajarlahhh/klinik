@@ -9,7 +9,7 @@ class Pemeriksaan extends CI_Controller {
     }
 
     public function index(){
-        $this->input();
+        $this->cari();
     }
 
     public function data()
@@ -58,45 +58,13 @@ class Pemeriksaan extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($cari));
     }
 
-    public function cekStok(){
-        $rs = null;
-        $i = 0; 
-        $j = 0;
-        $this->load->model('mstokdiagnosa');
-        foreach($this->input->post("idBarang") as $key){
-            if (strlen($this->input->post('qtyBarang')[$i]) > 0) {
-                $stok = $this->mstokdiagnosa->getStok($this->input->post("idBarang")[$i]);
-
-                if(!$stok){
-                    $rs[$j] = array($this->input->post('label')[$i], "Stok tidak tersedia");
-                    $j++;
-                }else{
-                    if($stok - $this->input->post('qtyBarang')[$i] < 0){
-                        $rs[$j] = array($this->input->post('label')[$i], "Tersisa ".$stok." ".$this->input->post('satuanBarang')[$i]);
-                        $j++;
-                    }
-                }
-            }else{
-                $rs[$j] = array($this->input->post('label')[$i], "Input qty permintaan");
-                $j++;
-            }
-            $i++;
-        }
-        $this->output->set_content_type('application/json')->set_output(json_encode($rs));
-    }
-
-    public function getTindakan()
+    public function cari($action = null)
     {
-        $this->load->model('mdokter');
-        $tp = $this->mdokter->get_by_nama($this->input->post('dr'));
-        if($tp->tamuDokter == 0){
-            $this->load->model('mdatatindakan');
-            $rs = $this->mdatatindakan->get_all();
-        }else{
-            $this->load->model('mtindakandokter');
-            $rs = $this->mtindakandokter->get_by_dokter($this->input->post('dr'));
-        }
-        $this->output->set_content_type('application/json')->set_output(json_encode($rs));
+        $this->sessioncheck->validasi('pemeriksaan', $this->redirect);
+        $this->load->view('include/header');
+        $this->load->view('include/sidebar');
+        $this->load->view('pelayanan/pemeriksaan/cari');
+        $this->load->view('include/footer');
     }
 
     public function input($action = null)
@@ -164,11 +132,16 @@ class Pemeriksaan extends CI_Controller {
                 redirect();
             }
         }
+        $id = $this->input->get('id');
         $this->load->model('mdiagnosa');
+        $this->load->model('mpendaftaran');
+        $this->load->model('mrekammedis');
         $diagnosa = $this->mdiagnosa->get_all();
 
-        $content = array(            
-            'diagnosaJSON' => json_encode($diagnosa)
+        $content = array(
+            'diagnosaJSON' => json_encode($diagnosa),
+            'data' => $this->mpendaftaran->get_by_id($id),
+            'rm' => $this->mrekammedis->get_rm($id)
         );
         $this->load->view('include/header');
         $this->load->view('include/sidebar');
