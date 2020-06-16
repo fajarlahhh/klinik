@@ -1,0 +1,233 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "autonumeric",
+        "scope": null,
+        "escapedName": "autonumeric",
+        "name": "autonumeric",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "D:\\htdocs\\akunting"
+    ]
+  ],
+  "_from": "autonumeric@latest",
+  "_id": "autonumeric@4.2.12",
+  "_inCache": true,
+  "_location": "/autonumeric",
+  "_nodeVersion": "8.11.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/autonumeric_4.2.12_1524641017643_0.49696528546266716"
+  },
+  "_npmUser": {
+    "name": "acd",
+    "email": "alexandre.bonneau@linuxfr.eu"
+  },
+  "_npmVersion": "5.6.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "autonumeric",
+    "scope": null,
+    "escapedName": "autonumeric",
+    "name": "autonumeric",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/autonumeric/-/autonumeric-4.2.12.tgz",
+  "_shasum": "0d5cefc9ec36f0e625231462c64bed245b149f79",
+  "_shrinkwrap": null,
+  "_spec": "autonumeric",
+  "_where": "D:\\htdocs\\akunting",
+  "author": {
+    "name": "Robert Knothe",
+    "email": "bob@decorplanit.com"
+  },
+  "autoupdate": {
+    "source": "git",
+    "target": "git://github.com/autoNumeric/autoNumeric.git",
+    "basePath": "",
+    "files": [
+      "src/AutoNumeric.js",
+      "src/AutoNumericDefaultSettings.js",
+      "src/AutoNumericEnum.js",
+      "src/AutoNumericEvents.js",
+      "src/AutoNumericHelper.js",
+      "src/AutoNumericOptions.js",
+      "src/AutoNumericPredefinedOptions.js",
+      "src/main.js"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/autoNumeric/autoNumeric/issues"
+  },
+  "contributors": [
+    {
+      "name": "Alexandre Bonneau",
+      "email": "alexandre.bonneau@linuxfr.eu"
+    },
+    {
+      "name": "Sokolov Yura"
+    },
+    {
+      "name": "Carlos Gonzales"
+    },
+    {
+      "name": "Ney Estrabelli"
+    },
+    {
+      "name": "Carlos Ghan"
+    },
+    {
+      "name": "Boris Cherny"
+    },
+    {
+      "name": "Maxwell Barvian"
+    },
+    {
+      "name": "Sasha Koss"
+    },
+    {
+      "name": "Mic Biert"
+    },
+    {
+      "name": "Peter Boccia"
+    },
+    {
+      "name": "Bruno Batista"
+    },
+    {
+      "name": "Jarin Udom"
+    },
+    {
+      "name": "Raymond Lehnhoff"
+    },
+    {
+      "name": "Cory Foy"
+    }
+  ],
+  "dependencies": {},
+  "description": "autoNumeric is a standalone Javascript library that provides live *as-you-type* formatting for international numbers and currencies. It supports most international numeric formats and currencies including those used in Europe, Asia, and North and South Am",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "8.2.2",
+    "babel-istanbul": "^0.12.2",
+    "babel-istanbul-loader": "^0.1.0",
+    "babel-loader": "^7.1.3",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "compression-webpack-plugin": "^1.1.9",
+    "coveralls": "3.0.0",
+    "eslint": "^4.18.1",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.0.0",
+    "imports-loader": "^0.8.0",
+    "jasmine-core": "^3.1.0",
+    "karma": "^2.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-jasmine": "^1.1.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-spec-reporter": "^0.0.32",
+    "karma-webpack": "^3.0.0",
+    "loader-utils": "^1.1.0",
+    "phantomjs-prebuilt": "^2.1.16",
+    "rimraf": "^2.6.1",
+    "uglify-js": "^3.3.12",
+    "wdio-jasmine-framework": "^0.3.2",
+    "wdio-selenium-standalone-service": "^0.0.10",
+    "wdio-spec-reporter": "^0.1.4",
+    "wdio-static-server-service": "^1.0.1",
+    "webdriverio": "^4.12.0",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.9",
+    "webpack-merge": "^4.1.2"
+  },
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-9TDcpk8bnTh9rMoch8xsreB18zpU0UBgX4dDm9CsHbOfd3lJg1UBjs4Nl0XFwqiSG3+12OETsixSUAbYJpHsNA==",
+    "shasum": "0d5cefc9ec36f0e625231462c64bed245b149f79",
+    "tarball": "https://registry.npmjs.org/autonumeric/-/autonumeric-4.2.12.tgz",
+    "fileCount": 21,
+    "unpackedSize": 3640586,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJa4Cz8CRA9TVsSAnZWagAAKQ4P/j2vIpZlTkKvzvHrbS/A\nLGKOhCJRoKCIcZ7Gf5kV7Ev8Q7eGRa2O3WneqVX7cUiQu9NpK17l2WKwrGEn\n+yXkex9dbKZEyXNlwk9LDKm5ySo8qOgwIAaQwE6SSdQ2cBfFl+j1M/2SnNBw\ncMktK+mlSJXIFDD18rWQKNCrL89qufjIKI1K5OwKzUhhcKy7QYHR+rmSTpeM\nxntmlWmOVC29h+w3XZUTbtJs2NkvtS8fdo4MLS2FMQvgyhLbKfoQCx6zHCvu\neacCzxKRThYG3tOjVMH5dTis646eVQDIKLQulyXIDF4vQLaoRUKVthRIhKP9\n8SDx7u2fv63RFDS6LcbAKSWav1BwPnf/6tKJx0btCSBEAERLDzUYfopA8G9U\ntLxyIvuoSDRNklWERK9Orh5k51Crv3304djzsgUdwiCdxIwVVTLZHmB0f0+0\n6WAS/2i5iat5UXveQA6ZccD0LeUCHgqU6CIl2owL85BCC9BC7yVWVfXuvTBd\n12M06RymUC2vHc3Eo2Lm2UZqydPa60s5taACyxr89XXch0Gf35dxonlY1tRY\nRGbBQQPXk6kNbl0HUhZsNsN3wnpr1J3xGA5IZDZajY+SjPYmfMR5WHnS0Fyv\n0vmvyyldTYVCYIAAf+fkHQFyZ/xNZd/ea5T3SebA/vQiq6InnmnJzpSM3MdQ\nm/mb\r\n=o+n5\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "gitHead": "f15f9a974b96bcc2cc2785210e82959cae7b2b47",
+  "homepage": "https://github.com/autoNumeric/autoNumeric/",
+  "keywords": [
+    "currency",
+    "money",
+    "monetary",
+    "Euro",
+    "Dollar",
+    "Pound",
+    "number",
+    "numeric",
+    "format",
+    "form",
+    "input",
+    "mask",
+    "as-you-type",
+    "live"
+  ],
+  "license": "MIT",
+  "main": "dist/autoNumeric.js",
+  "maintainers": [
+    {
+      "name": "acd",
+      "email": "alexandre.bonneau@linuxfr.eu"
+    },
+    {
+      "name": "rknothe",
+      "email": "bob@decorplanit.com"
+    }
+  ],
+  "module": "src/main.js",
+  "name": "autonumeric",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/autoNumeric/autoNumeric.git"
+  },
+  "scripts": {
+    "authors": "sh tools/authors.sh",
+    "build": "yarn clean:build && yarn build:dev && yarn build:prd",
+    "build:dev": "webpack --config config/webpack.config.dev.js",
+    "build:prd": "webpack --config config/webpack.config.prd.js",
+    "clean": "yarn clean:build && yarn clean:coverage && yarn clean:log && yarn clean:e2e",
+    "clean:build": "rimraf dist",
+    "clean:coverage": "rimraf test/unit/coverage",
+    "clean:e2e": "rimraf test/e2e/reports/* && rimraf test/e2e/screenshots/*",
+    "clean:log": "rimraf npm-debug.log selenium-debug.log test/e2e/selenium.log yarn-error.log",
+    "lint": "eslint --ext .js src test/unit test/e2e",
+    "lintfix": "eslint --fix --ext .js src test/unit test/e2e",
+    "postinstall": "node yarnfix.js",
+    "test": "yarn test:unit && yarn test:e2e",
+    "test:e2e": "wdio test/e2e/wdio.local.conf.js",
+    "test:unit": "karma start test/unit/karma.conf.js --single-run",
+    "test:unitc": "karma start test/unit/karma.conf.js --single-run --browsers Chrome",
+    "test:unitcp": "karma start test/unit/karma.conf.js --single-run --browsers Chrome --reporters 'progress'",
+    "test:unitf": "karma start test/unit/karma.conf.js --single-run --browsers Firefox",
+    "test:unitfp": "karma start test/unit/karma.conf.js --single-run --browsers Firefox --reporters 'progress'",
+    "test:unitp": "karma start test/unit/karma.conf.js --single-run --browsers PhantomJS",
+    "test:unitpp": "karma start test/unit/karma.conf.js --single-run --browsers PhantomJS --reporters 'progress'",
+    "test:unitprogress": "karma start test/unit/karma.conf.js --single-run --reporters 'progress'",
+    "travis:lint": "yarn lint",
+    "travis:test": "yarn test:unitp"
+  },
+  "version": "4.2.12"
+}
