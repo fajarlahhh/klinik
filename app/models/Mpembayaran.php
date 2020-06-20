@@ -27,7 +27,7 @@ class Mpembayaran extends CI_Model {
     }
     
     function get_limit($bln, $thn, $cari, $offset, $num) {
-        $this->db->select('a.*, b.rmPasien rmPasien, namaPasien, alamatPasien, telpPasien, pekerjaanPasien, tempatLahirPasien, tglLahirPasien, kelaminPasien');
+        $this->db->select('a.*, b.rmPasien rmPasien, namaPasien, alamatPasien, telpPasien, pekerjaanPasien, fotoPemeriksaan, tempatLahirPasien, tglLahirPasien, kelaminPasien');
         $this->db->where('month(tglPembayaran)', $bln);
         $this->db->where('year(tglPembayaran)', $thn);
         $this->db->group_start();
@@ -43,6 +43,7 @@ class Mpembayaran extends CI_Model {
         $this->db->from('t_pembayaran a');
         $this->db->join('t_pendaftaran b', 'a.idPendaftaran = b.idPendaftaran', 'left');
         $this->db->join('m_pasien c', 'b.rmPasien = c.rmPasien', 'left');
+        $this->db->join('t_pemeriksaan d', 'a.idPendaftaran = d.idPendaftaran', 'left');
         return $this->db->get()->result();
     }
 

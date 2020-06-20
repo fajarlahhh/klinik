@@ -144,6 +144,7 @@ class Datapasien extends CI_Controller {
         $row = $this->mpasien->get_by_id($this->input->get('id'));
 
         if ($row) {
+        $this->load->model('mrekammedis');
             $content = array(
                 'action' => 'Edit',
                 'back' => $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : "datapasien",
@@ -155,7 +156,9 @@ class Datapasien extends CI_Controller {
                 'tglLahirPasien' => set_value('tglLahirPasien', $row->tglLahirPasien),
                 'telpPasien' => set_value('telpPasien', $row->telpPasien),
                 'kelaminPasien' => set_value('kelaminPasien', $row->kelaminPasien),
-                'pekerjaanPasien' => set_value('pekerjaanPasien', $row->pekerjaanPasien)
+                'pekerjaanPasien' => set_value('pekerjaanPasien', $row->pekerjaanPasien),
+            'rm' => $this->mrekammedis->get_rm($row->rmPasien),
+            'obat' => $this->mrekammedis->get_barang($row->rmPasien)		
                 );
             $this->load->view('include/header');
             $this->load->view('include/sidebar');

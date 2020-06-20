@@ -79,7 +79,7 @@ class Pemeriksaan extends CI_Controller {
 					$this->load->helper('string');
 					
 	
-					$config['upload_path'] = "./upload/";
+					$config['upload_path'] = "./uploads/";
 					$config['allowed_types'] = '*';
 					$config['file_name'] = random_string('alnum', 16);
 					$this->load->library('upload', $config);
@@ -124,7 +124,7 @@ class Pemeriksaan extends CI_Controller {
                     $this->db->trans_commit();
                     $dlg = array('pesan' => 'Berhasil menyimpan data', 'tipe' => 'alert-success');
                     $this->session->set_flashdata('message', $dlg);
-                    redirect('pemeriksaan/data');
+                    redirect('pemeriksaan');
                 }
             }else{
                 $dlg = array('pesan' => 'Tidak ada izin untuk menambah/mengubah data', 'tipe' => 'alert-danger');
@@ -142,7 +142,8 @@ class Pemeriksaan extends CI_Controller {
         $content = array(
             'diagnosaJSON' => json_encode($diagnosa),
             'data' => $this->mpendaftaran->get_by_id($no),
-            'rm' => $this->mrekammedis->get_rm($rm)
+            'rm' => $this->mrekammedis->get_rm($rm),
+            'obat' => $this->mrekammedis->get_barang($rm),
         );
         $this->load->view('include/header');
         $this->load->view('include/sidebar');
@@ -152,22 +153,47 @@ class Pemeriksaan extends CI_Controller {
 
     public function foto($action = null)
     {
-        $this->sessioncheck->validasi('pemeriksaan', $this->redirect);
         if($action){
             if($this->session->userdata('lvlPengguna') < 3){
 				$this->db->trans_begin();
+				
+				$file = '';
+				if ($_FILES['fotoPemeriksaan']['name']){
+					$this->load->helper('string');
+					
+	
+					$config['upload_path'] = "./uploads/";
+					$config['allowed_types'] = '*';
+					$config['file_name'] = random_string('alnum', 16);
+					$this->load->library('upload', $config);
+	
+					if ($this->upload->do_upload('fotoPemeriksaan')) {
+						$file = $this->upload->data();
+						$file = UPLOAD_PATH.$file['file_name'];
+					}
+					else {
+						$dlg = array('pesan' => 'Proses upload data gagal ('.$this->upload->display_errors().')', 'tipe' => 'alert-danger');
+						$this->session->set_flashdata('message', $dlg);
+						redirect($this->input->post('back'));
+					}
+				}
+
+                $data  = array(
+                    'fotoPemeriksaan' => $file
+                );
+                $this->mpemeriksaan->update($this->input->post('idPendaftaran'), $this->security->xss_clean($data));
 				
                 
                 if ($this->db->trans_status() === FALSE){
                     $this->db->trans_rollback();
                     $dlg = array('pesan' => 'Gagal menyimpan data', 'tipe' => 'alert-danger');
                     $this->session->set_flashdata('message', $dlg);
-                    redirect('pemeriksaan');
+                    redirect($this->input->post('redirect'));
                 }else{
                     $this->db->trans_commit();
                     $dlg = array('pesan' => 'Berhasil menyimpan data', 'tipe' => 'alert-success');
                     $this->session->set_flashdata('message', $dlg);
-                    redirect('pemeriksaan/data');
+                    redirect($this->input->post('redirect'));
                 }
             }else{
                 $dlg = array('pesan' => 'Tidak ada izin untuk menambah/mengubah data', 'tipe' => 'alert-danger');
@@ -175,11 +201,16 @@ class Pemeriksaan extends CI_Controller {
                 redirect();
             }
         }
-        $this->load->model('mdiagnosa');
-        $diagnosa = $this->mdiagnosa->get_all();
-
+        $no = $this->input->get('no');
+        $rm = $this->input->get('rm');
+        $this->load->model('mpendaftaran');
+        $this->load->model('mrekammedis');
+	
         $content = array(            
-            'data' => $this->mpemeriksaan->get_by_id($this->input->get('id'))
+            'data' => $this->mpendaftaran->get_by_id($no),
+            'rm' => $this->mrekammedis->get_rm($rm),
+            'obat' => $this->mrekammedis->get_barang($rm),
+			'redirect' => $this->input->get('redirect')
         );
         $this->load->view('include/header');
         $this->load->view('include/sidebar');

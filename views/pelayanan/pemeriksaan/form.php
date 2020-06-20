@@ -10,7 +10,7 @@
     </section>
     <!-- Main content -->
     <section class="content">
-		<form action="<?php echo site_url('pemeriksaan/input/action');?>" method="post" data-toggle="validator" role="form" enctype="multipart/form-data">
+		<form action="<?php echo site_url('pemeriksaan/form/action');?>" method="post" data-toggle="validator" role="form" enctype="multipart/form-data">
         <div class="box box-solid">
             <div class="box-body">
                 <div class="row">
@@ -106,6 +106,7 @@
                             ?>
                         </div>
                     </div>
+						
                     <div class="col-md-8">
 						<div class="alert alert-danger">
 							<h5>Rekam Medis</h5>
@@ -117,7 +118,6 @@
 											<th width="100">Tanggal Periksa</th>
 											<th width="200">Diagnosa</th>
 											<th width="300">Tindakan</th>
-											<th width="300">Obat</th>
 											<th>Foto</th>
 										</tr>
 										<?php
@@ -141,22 +141,36 @@
 												}
 											?>
 											</td>
-											<td>
-											<?php 
-												$obat = $this->mrekammedis->get_barang($row->noPembayaran);
-												foreach ($obat as $det) {
-													echo $det->namaBarang." ".$det->qtyBarang." ".$det->satuanBarang."<br>";
-												}
-											?>
-											</td>
 											<td><a href="<?php base_url($row->fotoPemeriksaan)?>"><img src="<?php base_url($row->fotoPemeriksaan)?>" alt="" width="100"></a></td>
 										</tr>
 										<?php
 											}
 										?>
 									</thead>
-									<tbody id="detail-tdk">
-									</tbody>
+								</table>
+							</div>
+							<hr>
+							<h5>Obat</h5>
+							<div class="table-responsive" style="height: 400px">
+								<table class="table">
+									<thead>
+										<tr>
+											<th width="100">Tanggal Pembelian</th>
+											<th width="300">Nama Obat</th>
+											<th>Qty</th>
+										</tr>
+										<?php
+											foreach ($obat as $row) {
+										?>
+										<tr>
+											<td><?php date('d M Y', strtotime($row->tglBarangKeluar)) ?></td>
+											<td><?php $row->namaBarang ?></td>
+											<td><?php $row->qtyBarang." ".$row->satuanBarang ?></td>
+										</tr>
+										<?php
+											}
+										?>
+									</thead>
 								</table>
 							</div>
 						</div>

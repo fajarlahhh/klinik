@@ -63,7 +63,7 @@
                                     <th>Jenis Kelamin</th>
                                     <th>Jumlah Tagihan</th>
                                     <th>Tgl. Bayar</th>
-                                    <th width=80></th>
+                                    <th width=100></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,6 +78,11 @@
                                         echo "<td align='right'>".number_format($row->jmlTagihan, 2)."</td>";
                                         echo "<td>".date("d M Y", strtotime($row->tglPembayaran))."</td>";
                                         echo "<td align='right'>";
+										if ($row->fotoPemeriksaan) {
+											echo "&nbsp;<a href='".base_url($row->fotoPemeriksaan)."' class='btn bg-yellow btn-xs' target='_blank'><i class='fa fa-image '></i></a>";
+										}else{
+											echo "&nbsp;<a href='".base_url('pemeriksaan/foto?no='.$row->idPendaftaran.'&rm='.$row->rmPasien.'&redirect=pembayaran')."' class='btn bg-green btn-xs'><i class='fa fa-upload '></i></a>";
+										}
                                         echo "&nbsp;<a href='".base_url('pembayaran/cetak?no='.urlencode($row->noPembayaran))."' class='btn bg-aqua btn-xs' data-toggle='modal' target='_blank'><i class='fa fa-print '></i></a>";
                                         if($this->session->userdata('lvlPengguna') < 2){
                                             echo "&nbsp;<a href='#' id='btn-del' class='btn btn-danger btn-xs' data-toggle='modal' data-no='".$row->idPendaftaran."' data-target='#modal-hapus'><i class='fa fa-trash'></i></a>";

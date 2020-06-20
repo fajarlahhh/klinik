@@ -26,7 +26,7 @@ class Mpemeriksaan extends CI_Model {
     }
     
     function get_limit($bln, $thn, $cari, $offset, $num) {
-        $this->db->select('a.*, b.rmPasien rmPasien, namaPasien, alamatPasien, telpPasien, pekerjaanPasien, tempatLahirPasien, tglLahirPasien, kelaminPasien, a.tglInput tglPemeriksaan');
+        $this->db->select('a.*, b.rmPasien rmPasien, namaPasien, alamatPasien, telpPasien, pekerjaanPasien, tempatLahirPasien, tglLahirPasien, kelaminPasien, a.tglInput tglPemeriksaan, statPemeriksaan, statPembayaran');
         $this->db->where('month(a.tglInput)', $bln);
         $this->db->where('year(a.tglInput)', $thn);
         $this->db->group_start();

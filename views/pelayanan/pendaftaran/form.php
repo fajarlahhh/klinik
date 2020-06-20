@@ -36,7 +36,6 @@
                                     echo form_input(array(
                                         'type' => 'text',
                                         'maxlength' => 255,
-                                        'id' => 'namaPasien',
                                         'name' => 'namaPasien',
                                         'class' => 'form-control',
                                         'value' => $namaPasien,
@@ -53,7 +52,6 @@
                                     echo form_input(array(
                                         'type' => 'text',
                                         'maxlength' => 24,
-                                        'id' => 'ktpPasien',
                                         'name' => 'ktpPasien',
                                         'class' => 'form-control',
                                         'value' => $ktpPasien,
@@ -70,7 +68,6 @@
                                     echo form_input(array(
                                         'type' => 'text',
                                         'maxlength' => 500,
-                                        'id' => 'alamatPasien',
                                         'name' => 'alamatPasien',
                                         'class' => 'form-control',
                                         'value' => $alamatPasien,
@@ -87,7 +84,6 @@
                                     echo form_input(array(
                                         'type' => 'text',
                                         'maxlength' => 45,
-                                        'id' => 'tempatLahirPasien',
                                         'name' => 'tempatLahirPasien',
                                         'class' => 'form-control',
                                         'value' => $tempatLahirPasien,
@@ -109,7 +105,6 @@
                                     <?php 
                                         echo form_input(array(
                                             'type' => 'text',
-                                            'id' => 'tglLahirPasien',
                                             'name' => 'tglLahirPasien',
                                             'value' => $tglLahirPasien ? date('d M Y', strtotime($tglLahirPasien)) : date('d M Y'),
                                             'class' => 'form-control pull-right datepicker',
@@ -129,7 +124,6 @@
                                         'P' => 'Perempuan'
                                     ), $kelaminPasien, array(
                                         'class' => 'form-control',
-                                        'id' => 'kelaminPasien',
                                         'style' => 'width: 100%;'
                                     ));
                                 ?>
@@ -142,7 +136,6 @@
                                     echo form_input(array(
                                         'type' => 'text',
                                         'maxlength' => 45,
-                                        'id' => 'telpPasien',
                                         'name' => 'telpPasien',
                                         'class' => 'form-control',
                                         'value' => $telpPasien,
@@ -159,7 +152,6 @@
                                     echo form_input(array(
                                         'type' => 'text',
                                         'maxlength' => 50,
-                                        'id' => 'pekerjaanPasien',
                                         'name' => 'pekerjaanPasien',
                                         'class' => 'form-control',
                                         'value' => $pekerjaanPasien,
@@ -184,7 +176,6 @@
 										<?php 
 											echo form_input(array(
 												'type' => 'text',
-												'id' => 'tglPendaftaran',
 												'name' => 'tglPendaftaran',
 												'value' => $tglPendaftaran ? date('d M Y', strtotime($tglPendaftaran)) : date('d M Y'),
 												'class' => 'form-control pull-right datepicker',
@@ -212,7 +203,6 @@
                                             'class' => "control-label"
                                         ));
                                         echo form_textarea(array(
-                                            'id' => 'keteranganPendaftaran',
                                             'name' => 'keteranganPendaftaran',
                                             'class' => 'form-control',
                                             'rows' => '5',

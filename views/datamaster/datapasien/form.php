@@ -11,7 +11,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-md-4">
                 <div class="box box-primary">
                     <?php                    
                     echo form_open_multipart('datapasien/'.strtolower($action).'/action', array(
@@ -196,6 +196,76 @@
                     ?>
                 </div>
             </div>
-        </div>
+			<?php if($action == 'Edit') { ?>
+                    <div class="col-md-8">
+						<div class="alert alert-danger">
+							<h5>Rekam Medis</h5>
+							<hr>
+							<div class="table-responsive" style="height: 400px">
+								<table class="table">
+									<thead>
+										<tr>
+											<th width="100">Tanggal Periksa</th>
+											<th width="200">Diagnosa</th>
+											<th width="300">Tindakan</th>
+											<th>Foto</th>
+										</tr>
+										<?php
+											foreach ($rm as $row) {
+										?>
+										<tr>
+											<td><?php echo date('d M Y', strtotime($row->tglPeriksa? $row->tglPeriksa: $row->tglPendaftaran)) ?></td>
+											<td>
+											<?php 
+												$pemeriksaan = $this->mrekammedis->get_pemeriksaan($row->idPendaftaran);
+												foreach ($pemeriksaan as $det) {
+													echo $det->diagnosaPemeriksaan.", sifat : ".$det->sifatPemeriksaan.", ket : ".$det->ketPemeriksaan."<br>";
+												}
+											?>
+											</td>
+											<td>
+											<?php 
+												$tindakan = $this->mrekammedis->get_tindakan($row->noPembayaran);
+												foreach ($tindakan as $det) {
+													echo $det->namaTindakan." ".$det->qtyTindakan." x , oleh ".$det->namaPetugas."<br>";
+												}
+											?>
+											</td>
+											<td><a href="<?php base_url($row->fotoPemeriksaan)?>"><img src="<?php base_url($row->fotoPemeriksaan)?>" alt="" width="100"></a></td>
+										</tr>
+										<?php
+											}
+										?>
+									</thead>
+								</table>
+							</div>
+							<hr>
+							<h5>Obat</h5>
+							<div class="table-responsive" style="height: 400px">
+								<table class="table">
+									<thead>
+										<tr>
+											<th width="100">Tanggal Pembelian</th>
+											<th width="300">Nama Obat</th>
+											<th>Qty</th>
+										</tr>
+										<?php
+											foreach ($obat as $row) {
+										?>
+										<tr>
+											<td><?php date('d M Y', strtotime($row->tglBarangKeluar)) ?></td>
+											<td><?php $row->namaBarang ?></td>
+											<td><?php $row->qtyBarang." ".$row->satuanBarang ?></td>
+										</tr>
+										<?php
+											}
+										?>
+									</thead>
+								</table>
+							</div>
+						</div>
+                    </div>
+			<?php }?>
+		</div>
     </section>
 </div>

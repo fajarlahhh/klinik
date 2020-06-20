@@ -43,22 +43,23 @@
 						?>
 					</div>
 				</div>
-                <div class="form-group input-group-sm has-feedback">
-                    <?php 
-                        echo form_label('Nama Pelanggan', 'pelangganBarangKeluar', array(
-                            'class' => "control-label"
-                        ));
-                        echo form_input(array(
-                            'type' => 'text',
-                            'maxlength' => 255,
-                            'id' => 'pelangganBarangKeluar',
-                            'name' => 'pelangganBarangKeluar',
-                            'class' => 'form-control',
-                            'autocomplete' => 'off',
-                            'required' => ''
-                        ));
-                    ?>
-                </div>
+				
+				<div class="form-group input-group-sm">
+					<?php 
+						echo "<div class='form-group input-group-sm'>";
+						echo form_label('Cari Pasien', 'rmPasien', array(
+							'class' => "control-label"
+						));
+						echo form_dropdown('rmPasien', '', '', array(
+							'id' => 'rmPasien',
+							'class' => 'form-control form-control-sm select2',
+							'style' => 'width: 100%;',
+							'required' => ''
+						));
+						echo '</div>';
+					?>
+				</div>
+				<input type="hidden" id="pelangganBarangKeluar" name="pelangganBarangKeluar" >
                 <div class="form-group input-group-sm has-feedback">
                     <?php 
                         echo form_label('Keterangan', 'ketBarangKeluar', array(
@@ -476,4 +477,53 @@
         else
             return false;
     }
+    $("#rmPasien").on("change", function(e) {
+        $("#pelangganBarangKeluar").val($(this).select2('data')[0]['id']);
+    });
+
+    function format(data) {
+        if (!data.id) { return data.text; }
+        var $data = $("<tr><th width='90'>No. RM</th><td>: " + data.id + "</td></tr>" + 
+                        "<tr><th>Nama</th><td>: " + data.namaPasien + "</td></tr>" + 
+                        "<tr><th>Alamat</th><td>: " + data.alamatPasien + "</td></tr>"+ 
+                        "<tr><th>Jenis Kelamin</th><td>: " + data.kelaminPasien + "</td></tr>");
+        return $data;
+    }
+
+    $("#rmPasien").select2({
+        minimumInputLength: 1,
+        templateResult: format,
+        ajax:{
+            url: base_url + 'datapasien/getpasien',
+            dataType: "json",
+            delay: 250,
+            type : 'POST',
+            data: function(params){
+                return{
+                    ID: params.term
+                };
+            },
+            processResults: function(data){
+                var results = [];
+
+                $.each(data, function(index, item){
+                    results.push({
+                        id: item.rmPasien,
+                        namaPasien : item.namaPasien ,
+                        alamatPasien : item.alamatPasien ,
+                        ktpPasien : item.ktpPasien ,
+                        tempatLahirPasien : item.tempatLahirPasien ,
+                        tglLahirPasien_ : item.tglLahirPasien_ ,
+                        kelaminPasien : item.kelaminPasien ,
+                        telpPasien : item.telpPasien ,
+                        pekerjaanPasien : item.pekerjaanPasien ,
+                        text: item.rmPasien + " - " + item.namaPasien
+                    });
+                });
+                return{
+                    results: results
+                };
+            }
+        }
+    });
 </script>

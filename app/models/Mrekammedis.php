@@ -9,7 +9,7 @@ class Mrekammedis extends CI_Model {
     }
 
     function get_rm($id){ 
-        $this->db->select('b.tglInput tglPeriksa, a.idPendaftaran idPendaftaran, tglPendaftaran, namaDokter, fotoPemeriksaan,  noPembayaran');
+        $this->db->select('a.rmPasien, b.tglInput tglPeriksa, a.idPendaftaran idPendaftaran, tglPendaftaran, namaDokter, fotoPemeriksaan,  noPembayaran');
         $this->db->where('a.rmPasien', $id);
         $this->db->where('statPemeriksaan', 1);
         $this->db->where('statPembayaran', 1);
@@ -26,9 +26,10 @@ class Mrekammedis extends CI_Model {
         return $this->db->get()->result();
     }
 
-    function get_barang($no){ 
-        $this->db->where('noPembayaran', $no);
-        $this->db->from('t_pembayaran_barang');
+    function get_barang($rm){ 
+        $this->db->where('pelangganBarangKeluar', $rm);
+        $this->db->from('t_barang_keluar a');
+        $this->db->join('t_barang_keluar_det c', 'a.idBarangKeluar = c.idBarangKeluar', 'left');
         return $this->db->get()->result();
     }
 

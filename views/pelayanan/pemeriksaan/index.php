@@ -93,9 +93,11 @@
 										echo "</td>";
 										echo "<td align='right'>";
 										if ($row->fotoPemeriksaan) {
-											echo "&nbsp;<a href='".base_url($row->fotoPemeriksaan)."' class='btn bg-green btn-xs' data-toggle='modal' target='_blank'><i class='fa fa-images '></i></a>";
+											echo "&nbsp;<a href='".base_url($row->fotoPemeriksaan)."' class='btn bg-yellow btn-xs' target='_blank'><i class='fa fa-image '></i></a>";
+										}else{
+											echo "&nbsp;<a href='".base_url('pemeriksaan/foto?no='.$row->idPendaftaran.'&rm='.$row->rmPasien.'&redirect=pemeriksaan')."' class='btn bg-green btn-xs'><i class='fa fa-upload '></i></a>";
 										}
-                                        if($this->session->userdata('lvlPengguna') < 2){
+                                        if($this->session->userdata('lvlPengguna') < 2 && $row->statPembayaran == 0){
                                             echo "&nbsp;<a href='#' id='btn-del' class='btn btn-danger btn-xs' data-toggle='modal' data-no='".$row->idPendaftaran."' data-target='#modal-hapus'><i class='fa fa-trash'></i></a>";
                                         }
                                         echo "</td></tr>";

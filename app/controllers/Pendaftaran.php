@@ -103,6 +103,7 @@ class Pendaftaran extends CI_Controller {
                     'rmPasien' => ($this->input->post('baruOrLama') == 'b'? $rm: $this->input->post('rmPasien')),
                     'keteranganPendaftaran' => $this->input->post('keteranganPendaftaran'),
                     'namaDokter' => $this->input->post('namaDokter'),
+                        'statPemeriksaan' => 0,
                     'baruOrLama' => $this->input->post('baruOrLama'),
                     'operator' => $this->session->userdata('nmPengguna')
                 );
