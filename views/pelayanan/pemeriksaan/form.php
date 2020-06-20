@@ -141,7 +141,7 @@
 												}
 											?>
 											</td>
-											<td><a href="<?php base_url($row->fotoPemeriksaan)?>"><img src="<?php base_url($row->fotoPemeriksaan)?>" alt="" width="100"></a></td>
+											<td><a href="<?php echo base_url($row->fotoPemeriksaan)?>" target="_blank"><img src="<?php echo base_url($row->fotoPemeriksaan)?>" alt="" width="100"></a></td>
 										</tr>
 										<?php
 											}
@@ -163,9 +163,9 @@
 											foreach ($obat as $row) {
 										?>
 										<tr>
-											<td><?php date('d M Y', strtotime($row->tglBarangKeluar)) ?></td>
-											<td><?php $row->namaBarang ?></td>
-											<td><?php $row->qtyBarang." ".$row->satuanBarang ?></td>
+											<td><?php echo date('d M Y', strtotime($row->tglBarangKeluar)) ?></td>
+											<td><?php echo $row->namaBarang ?></td>
+											<td><?php echo $row->qtyBarang." ".$row->satuanBarang ?></td>
 										</tr>
 										<?php
 											}

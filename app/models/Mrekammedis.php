@@ -27,7 +27,9 @@ class Mrekammedis extends CI_Model {
     }
 
     function get_barang($rm){ 
+        $this->db->select('c.*');
         $this->db->where('pelangganBarangKeluar', $rm);
+        $this->db->order_by('tglBarangKeluar', 'desc');
         $this->db->from('t_barang_keluar a');
         $this->db->join('t_barang_keluar_det c', 'a.idBarangKeluar = c.idBarangKeluar', 'left');
         return $this->db->get()->result();

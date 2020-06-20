@@ -71,8 +71,7 @@
                             'id' => 'ketBarangKeluar',
                             'name' => 'ketBarangKeluar',
                             'class' => 'form-control',
-                            'autocomplete' => 'off',
-                            'required' => ''
+                            'autocomplete' => 'off'
                         ));
                     ?>
                 </div>
@@ -411,7 +410,7 @@
         jmlKembali.set(
             bayar-tagihan
         );
-        if(bayar >= tagihan && $('#pelangganBarangKeluar').val().length > 0 && $('#ketBarangKeluar').val().length > 0){
+        if(bayar >= tagihan){
             $("#btn-simpan").prop("disabled", false);
         }else{
             $("#btn-simpan").prop("disabled", true);
