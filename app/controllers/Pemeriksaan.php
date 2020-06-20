@@ -58,7 +58,7 @@ class Pemeriksaan extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($cari));
     }
 
-    public function cari($action = null)
+    public function cari()
     {
         $this->sessioncheck->validasi('pemeriksaan', $this->redirect);
         $this->load->view('include/header');
@@ -67,7 +67,7 @@ class Pemeriksaan extends CI_Controller {
         $this->load->view('include/footer');
     }
 
-    public function input($action = null)
+    public function form($action = null)
     {
         $this->sessioncheck->validasi('pemeriksaan', $this->redirect);
         if($action){
@@ -132,7 +132,8 @@ class Pemeriksaan extends CI_Controller {
                 redirect();
             }
         }
-        $id = $this->input->get('id');
+        $no = $this->input->get('no');
+        $rm = $this->input->get('rm');
         $this->load->model('mdiagnosa');
         $this->load->model('mpendaftaran');
         $this->load->model('mrekammedis');
@@ -140,8 +141,8 @@ class Pemeriksaan extends CI_Controller {
 
         $content = array(
             'diagnosaJSON' => json_encode($diagnosa),
-            'data' => $this->mpendaftaran->get_by_id($id),
-            'rm' => $this->mrekammedis->get_rm($id)
+            'data' => $this->mpendaftaran->get_by_id($no),
+            'rm' => $this->mrekammedis->get_rm($rm)
         );
         $this->load->view('include/header');
         $this->load->view('include/sidebar');

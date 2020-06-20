@@ -50,7 +50,7 @@ class Mpendaftaran extends CI_Model {
     }
 
     function get_by_id($id){
-        $this->db->select('b.*, idPendaftaran, noPendaftaran, tglPendaftaran, keluhanPendaftaran, keteranganPendaftaran, namaDokter, a.operator');
+        $this->db->select('b.*, idPendaftaran, noPendaftaran, tglPendaftaran, keteranganPendaftaran, namaDokter, a.operator');
         $this->db->where('idPendaftaran', $id);
         $this->db->from('t_pendaftaran a');
         $this->db->join('m_pasien b', 'a.rmPasien = b.rmPasien', 'left');

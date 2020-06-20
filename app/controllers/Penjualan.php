@@ -168,7 +168,7 @@ class Penjualan extends CI_Controller {
         $content = array(
             'data' => $this->mpenjualan->get_by_id($this->input->get('no')),
             'resep' => $this->mpenjualan->get_resep($this->input->get('no')),
-            'detail' => $this->mpenjualan->get_detail($this->input->get('no'))
+            'detail' => []
         );
         $this->load->view('apotek/penjualan/kwitansi', $content);
     }

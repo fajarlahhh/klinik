@@ -14,16 +14,22 @@
         <div class="box box-solid">
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                         <div class="form-group input-group-sm has-feedback">
-                            <?php
-                                echo form_label('Cari No. Pendaftaran', 'idPendaftaran', array(
+                            <?php 
+                                echo form_label('No. Pendaftaran', 'idPendaftaran', array(
                                     'class' => "control-label"
                                 ));
-                                echo form_dropdown('idPendaftaran', '', '', array(
-                                    'class' => 'form-control',
+                                echo form_input(array(
+                                    'type' => 'text',
+                                    'maxlength' => 24,
                                     'id' => 'idPendaftaran',
-                                    'style' => 'width: 100%;'
+                                    'name' => 'idPendaftaran',
+									'class' => 'form-control',
+									'value' => $data->idPendaftaran,
+                                    'autocomplete' => 'off',
+                                    'required' => '',
+                                    'readonly' => ''
                                 ));
                             ?>
                         </div>
@@ -37,6 +43,7 @@
                                     'maxlength' => 24,
                                     'id' => 'rmPasien',
                                     'name' => 'rmPasien',
+									'value' => $data->rmPasien,
                                     'class' => 'form-control',
                                     'autocomplete' => 'off',
                                     'required' => '',
@@ -54,6 +61,7 @@
                                     'maxlength' => 255,
                                     'id' => 'namaPasien',
                                     'name' => 'namaPasien',
+									'value' => $data->namaPasien,
                                     'class' => 'form-control',
                                     'autocomplete' => 'off',
                                     'required' => '',
@@ -71,6 +79,7 @@
                                     'maxlength' => 500,
                                     'id' => 'alamatPasien',
                                     'name' => 'alamatPasien',
+									'value' => $data->alamatPasien,
                                     'class' => 'form-control',
                                     'autocomplete' => 'off',
                                     'required' => '',
@@ -88,6 +97,7 @@
                                     'maxlength' => 255,
                                     'id' => 'namaDokter',
                                     'name' => 'namaDokter',
+									'value' => $data->namaDokter,
                                     'class' => 'form-control',
                                     'autocomplete' => 'off',
                                     'required' => '',
@@ -95,6 +105,63 @@
                                 ));
                             ?>
                         </div>
+                    </div>
+                    <div class="col-md-8">
+						<div class="alert alert-danger">
+							<h5>Rekam Medis</h5>
+							<hr>
+							<div class="table-responsive" style="height: 400px">
+								<table class="table">
+									<thead>
+										<tr>
+											<th width="100">Tanggal Periksa</th>
+											<th width="200">Diagnosa</th>
+											<th width="300">Tindakan</th>
+											<th width="300">Obat</th>
+											<th>Foto</th>
+										</tr>
+										<?php
+											foreach ($rm as $row) {
+										?>
+										<tr>
+											<td><?php echo date('d M Y', strtotime($row->tglPeriksa? $row->tglPeriksa: $row->tglPendaftaran)) ?></td>
+											<td>
+											<?php 
+												$pemeriksaan = $this->mrekammedis->get_pemeriksaan($row->idPendaftaran);
+												foreach ($pemeriksaan as $det) {
+													echo $det->diagnosaPemeriksaan.", sifat : ".$det->sifatPemeriksaan.", ket : ".$det->ketPemeriksaan."<br>";
+												}
+											?>
+											</td>
+											<td>
+											<?php 
+												$tindakan = $this->mrekammedis->get_tindakan($row->noPembayaran);
+												foreach ($tindakan as $det) {
+													echo $det->namaTindakan." ".$det->qtyTindakan." x , oleh ".$det->namaPetugas."<br>";
+												}
+											?>
+											</td>
+											<td>
+											<?php 
+												$obat = $this->mrekammedis->get_barang($row->noPembayaran);
+												foreach ($obat as $det) {
+													echo $det->namaBarang." ".$det->qtyBarang." ".$det->satuanBarang."<br>";
+												}
+											?>
+											</td>
+											<td><a href="<?php base_url($row->fotoPemeriksaan)?>"><img src="<?php base_url($row->fotoPemeriksaan)?>" alt="" width="100"></a></td>
+										</tr>
+										<?php
+											}
+										?>
+									</thead>
+									<tbody id="detail-tdk">
+									</tbody>
+								</table>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-md-12">
                         <hr>
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
@@ -141,6 +208,7 @@
                         ));
                     }
                 ?>
+                <a href="<?php echo site_url('pemeriksaan');?>" class="btn btn-sm btn-danger">Kembali</a>
                 <a href="<?php echo site_url('pemeriksaan/data');?>" class="btn btn-sm btn-info">Data Pemeriksaan</a>
             </div>
         </div>
@@ -148,11 +216,7 @@
     </section>
 </div>
 <script>
-    var jmlTagihan, jmlPemeriksaan, jmlKembali;
-
     var diagnosa;
-    var ptg;
-    var petugas;
 
     function addDiagnosa(){
         if(diagnosa){
@@ -191,23 +255,6 @@
         }
     });
 
-    $("#idPendaftaran").on("change", function(e) {
-        $("#rmPasien").val($(this).select2('data')[0]['rmPasien']);
-        $("#namaPasien").val($(this).select2('data')[0]['namaPasien']);
-        $("#alamatPasien").val($(this).select2('data')[0]['alamatPasien']);
-        $("#namaDokter").val($(this).select2('data')[0]['namaDokter']);
-        $('form').validator();
-        $("#detail-brg tr").empty();
-        $("#detail-tdk tr").empty();
-    });
-
-    function format(data) {
-        if (!data.id) { return data.text; }
-        var $data = $("<div style='color: #151e1e;'><label>No. Pendaftaran</label> : " + data.id + "<br>"+
-        "<label>Nama : </label>" + data.namaPasien + "<br><label>No. RM : </label>" + data.rmPasien + "<br><label>Alamat : </label>" + data.alamatPasien + "</div>");
-        return $data;
-    }
-
     function getDiagnosa(){
         diagnosa = null;
         $.ajax({
@@ -228,42 +275,5 @@
             }
         });
     }
-
-    $("#idPendaftaran").select2({
-        minimumInputLength: 1,
-        templateResult: format,
-        ajax:{
-            url: base_url + 'pemeriksaan/getblmperiksa',
-            dataType: "json",
-            delay: 250,
-            type : 'POST',
-            data: function(params){
-                return{
-                    cari: params.term
-                };
-            },
-            processResults: function(data){
-                var results = [];
-
-                $.each(data, function(index, item){
-                    results.push({
-                        id: item.idPendaftaran,
-                        rmPasien : item.rmPasien,
-                        namaPasien : item.namaPasien,
-                        alamatPasien : item.alamatPasien,
-                        namaDokter : item.namaDokter,
-                        idDokter : item.idDokter,
-                        tamuDokter : item.tamuDokter,
-                        kelaminPasien : item.kelaminPasien,
-                        text : item.idPendaftaran
-                    });
-                });
-                return{
-                    results: results
-                };
-            },
-            cache: true,
-        },
-    });
 
 </script>

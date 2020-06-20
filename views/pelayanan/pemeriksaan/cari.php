@@ -35,7 +35,7 @@
 </div>
 <script>
     $("#idPendaftaran").on("change", function(e) {
-        window.location.href = base_url + 'pemeriksaan/form?no=' + $(this).select2('data')[0]['id'];
+        window.location.href = base_url + 'pemeriksaan/form?no=' + $(this).select2('data')[0]['id'] + '&rm=' + $(this).select2('data')[0]['rmPasien'];
     });
 
     function format(data) {
