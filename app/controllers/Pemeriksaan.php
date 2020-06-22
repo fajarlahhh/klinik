@@ -104,14 +104,25 @@ class Pemeriksaan extends CI_Controller {
 
                 $i = 0;
                 foreach($this->input->post("diagnosaPemeriksaan") as $key){
-                    $this->mpemeriksaan->insert_detail(
-                        $this->security->xss_clean(array(
-							'idPendaftaran' => $this->input->post('idPendaftaran'),
-                            'diagnosaPemeriksaan' => $this->input->post('diagnosaPemeriksaan')[$i],
-                            'sifatPemeriksaan' => $this->input->post('sifatPemeriksaan')[$i],
-                            'ketPemeriksaan' => $this->input->post('ketPemeriksaan')[$i]
-                            ))
-                    );
+						if($this->input->post('diagnosaPemeriksaan')[$i] == '*Lain-lain'){
+							$this->mpemeriksaan->insert_detail(
+								$this->security->xss_clean(array(
+									'idPendaftaran' => $this->input->post('idPendaftaran'),
+									'diagnosaPemeriksaan' => $this->input->post('ketPemeriksaan')[$i],
+									'sifatPemeriksaan' => $this->input->post('sifatPemeriksaan')[$i],
+									'ketPemeriksaan' => ""
+									))
+								);
+						}else{
+							$this->mpemeriksaan->insert_detail(
+								$this->security->xss_clean(array(
+									'idPendaftaran' => $this->input->post('idPendaftaran'),
+									'diagnosaPemeriksaan' => $this->input->post('diagnosaPemeriksaan')[$i],
+									'sifatPemeriksaan' => $this->input->post('sifatPemeriksaan')[$i],
+									'ketPemeriksaan' => $this->input->post('ketPemeriksaan')[$i]
+									))
+							);
+						}
                     $i++;
                 }
                 

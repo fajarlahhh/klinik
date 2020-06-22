@@ -42,8 +42,10 @@
                                         echo "<tr>";
                                         echo "<td>".$row->namaDiagnosa."</td>";
                                         echo "<td align='right'>";
-                                        echo "<a href='".base_url('datadiagnosa/edit?id='.$row->idDiagnosa)."' class='btn btn-default btn-xs'><i class='fa fa-pencil'></i></a>";
-                                        if($this->session->userdata('lvlPengguna') == 0){
+										if($row->namaDiagnosa != '*Lain-lain'){
+											echo "<a href='".base_url('datadiagnosa/edit?id='.$row->idDiagnosa)."' class='btn btn-default btn-xs'><i class='fa fa-pencil'></i></a>";
+										}
+                                        if($this->session->userdata('lvlPengguna') == 0 && $row->namaDiagnosa != '*Lain-lain'){
                                             echo "&nbsp;<a href='#' id='btn-del' class='btn btn-danger btn-xs' data-toggle='modal' data-no='".$row->idDiagnosa."' data-target='#modal-hapus'><i class='fa fa-trash'></i></a>";
                                         }
                                         echo "</td></tr>";

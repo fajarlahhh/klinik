@@ -83,7 +83,7 @@ class Mlaporanpenerimaan extends CI_Model {
         $sql1 = $this->db->get_compiled_select();
         
         $this->db->select("a.`idBarangKeluar` AS `noPenerimaan`,
-        `pelangganBarangKeluar` AS `pelanggan`,
+       ifnull((select namaPasien from m_pasien where rmPasien=pelangganBarangKeluar), ifnull(ketBarangKeluar, pelangganBarangKeluar)) AS `pelanggan`,
         `operator` AS `operator`,
         `tglBarangKeluar` AS `tglPenerimaan`,
         `jmlTagihan` AS `jmlPenerimaan`,
