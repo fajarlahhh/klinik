@@ -180,6 +180,7 @@
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#tab_1" data-toggle="tab" style="text-decoration: none;">Diagnosa</a></li>
+                                <li><a href="#tab_2" data-toggle="tab" style="text-decoration: none;">Tindakan</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab_1">
@@ -199,12 +200,36 @@
                                                         <th width=5></th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="detail-tdk">
+                                                <tbody id="detail-diag">
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div class="text-center">
                                             <a class="btn btn-warning btn-sm" onclick="addDiagnosa()" style="text-decoration: none;">Tambah Diagnosa</a>
+                                        </div>
+                                    </div>
+								</div>
+								<div class="tab-pane" id="tab_2">
+                                    <div class="alert alert-info">
+                                        <div class="table-responsive no-padding">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="35%">Tindakan</th>
+                                                        <th>Biaya</th>
+                                                        <th width="100">Diskon (%)</th>
+                                                        <th width="100">Qty</th>
+                                                        <th>Total Biaya</th>
+                                                        <th>Petugas</th>
+                                                        <th width=5></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="detail-tdk">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="text-center">
+                                            <a class="btn btn-warning btn-sm" onclick="addTindakan()" style="text-decoration: none;">Tambah Tindakan</a>
                                         </div>
                                     </div>
 								</div>              
@@ -230,16 +255,78 @@
     </section>
 </div>
 <script>
+    var tindakan;
+    var ptg;
+    var petugas;
     var diagnosa;
+
+	function lainnya(i) {
+		if($("#diagnosa" + i + " option:selected").val() == "*Lain-lain"){
+			$("#lainnya" + i).show();
+		}else{
+			$("#lainnya" + i).hide();
+		}
+	}
+
+    function addTindakan(){
+        if(tindakan){
+            var random = Math.floor(Math.random()*10000);
+            $("#detail-tdk").append("<tr class='tindakan'>\
+                <td><div class='input-group-sm frm-inline'>\
+                    <select class='form-control form-control-sm select2 idTindakan' id='tindakan" + random + "' onchange='setHargaTindakan("+random+")' name='idTindakan[]' style='width: 100%; font-color: 12px'>" +
+                        tindakan
+                    + "</select>\
+                </div></td>\
+                <td><div class='input-group-sm'>\
+                    <input type='text' class='form-control numbering' id='hrgtdk" + random + "' value='0' name='biayaTindakan[]' autocomplete='off' readonly>\
+                </div></td>\
+                <td><div class='input-group-sm'>\
+                    <input type='number' class='form-control diskonTindakan' split='any' max=100 min=0 value='0' id='disctdk" + random + "' name='diskonTindakan[]' autocomplete='off' onchange='setSumHargaTindakan("+random+")' onkeyup='setSumHargaTindakan("+random+")'>\
+                </div></td>\
+                <td><div class='input-group-sm'>\
+                    <input type='number' class='form-control qtyTindakan' min=1 value='1' id='qtytdk" + random + "' name='qtyTindakan[]' autocomplete='off' onchange='setSumHargaTindakan("+random+")' onkeyup='setSumHargaTindakan("+random+")'>\
+                </div></td>\
+                <td><div class='input-group-sm'>\
+                    <input type='text' class='form-control numbering biayaTindakan' id='sumhrgtdk" + random + "' value='0.00' autocomplete='off' readonly>\
+                </div></td>\
+                <td><div class='input-group-sm'>\
+                    <select class='form-control form-control-sm select2' name='namaPetugas[]' style='width: 100%; font-color: 12px'>\
+						<option value='dokter'>Dokter</option>" +
+                    petugas
+                    + "</select>\
+                </div></td>\
+                <td><a onclick='delTindakan(this)' class='btn btn-danger btn-xs'><i class='fa fa-times'></i></a></td>\
+            </tr>");
+            $('#tindakan' + random).select2();
+            setHargaTindakan(random);
+        }
+    }
+
+    function delTindakan(id){
+        $(id).closest("tr").remove();
+    }
+
+	function setHargaTindakan(i){
+		$('#hrgtdk' + i).val(rupiah($('#tindakan' + i).find(':selected').data('harga')));
+		setSumHargaTindakan(i);
+	}
+
+    function setSumHargaTindakan(i){
+        $("#label" + i).text(' ');
+        var harga = parseFloat($('#hrgtdk' + i ).val().split(',').join(''));
+        var qtytdk = parseFloat(($('#qtytdk' + i ).val().length > 0? $('#qtytdk' + i ).val(): 0));
+        var disctdk = parseFloat(($('#disctdk' + i ).val().length > 0? $('#disctdk' + i ).val(): 0));
+        $('#sumhrgtdk' + i).val(rupiah((harga - (harga * disctdk/100)) * qtytdk));
+    }
 
     function addDiagnosa(){
         if(diagnosa){
             var random = Math.floor(Math.random()*10000);
-            $("#detail-tdk").append("<tr class='diagnosa'>\
+            $("#detail-diag").append("<tr class='diagnosa'>\
                 <td><div class='input-group-sm'>\
-                    <select class='form-control form-control-sm select2 diagnosaPemeriksaan' id='diagnosa" + random + "' name='diagnosaPemeriksaan[]' style='width: 100%; font-color: 12px'>" +
+                    <select class='form-control form-control-sm select2 diagnosaPemeriksaan' id='diagnosa" + random + "' name='diagnosaPemeriksaan[]' style='font-color: 12px' onchange='lainnya(" + random + ")'>" +
                         diagnosa
-                    + "</select>\
+                    + "</select><input type='text' class='form-control' placeholder='Diagnosa Lainnya' id='lainnya"  + random + "' name='lainnya[]' autocomplete='off' >\
                 </div></td>\
                 <td><div class='input-group-sm'>\
                     <input type='text' class='form-control' name='sifatPemeriksaan[]' autocomplete='off'>\
@@ -267,27 +354,13 @@
         for (var i = 0; i < brg.length; i++) {
             diagnosa = diagnosa + "<option value='" + brg[i]['namaDiagnosa'] + "'>" + brg[i]['namaDiagnosa'] + "</option>";
         }
+        tdk = <?php echo $tindakanJSON; ?>;
+        for (var i = 0; i < tdk.length; i++) {
+            tindakan = tindakan + "<option value='" + tdk[i]['idTindakan'] + "' data-nama='" + tdk[i]['namaTindakan'] + "' data-harga='" + tdk[i]['biayaTindakan'] + "'>" + tdk[i]['namaTindakan'] + "</option>";
+        }
+        ptg = <?php echo $petugasJSON; ?>;
+        for (var i = 0; i < ptg.length; i++) {
+            petugas = petugas + "<option value=" + ptg[i]['namaPetugas'] + ">" + ptg[i]['namaPetugas'] + "</option>";
+        }
     });
-
-    function getDiagnosa(){
-        diagnosa = null;
-        $.ajax({
-            url : base_url + "pemeriksaan/getdiagnosa",
-            type : "POST",
-            data : { dr : $("#namaDokter").val()},
-            success : function(data){
-                if(data){                    
-                    for (var i = 0; i < data.length; i++) {
-                        diagnosa = diagnosa + "<option value='" + data[i]['diagnosaPemeriksaan'] + "' data-nama='" + data[i]['namaDiagnosa'] + "' data-harga='" + data[i]['sifatPemeriksaan'] + "'>" + data[i]['namaDiagnosa'] + "</option>";
-                    }
-                }else {
-                    diagnosa = null;
-                }
-            },
-            error:function(){
-                diagnosa = null;
-            }
-        });
-    }
-
 </script>

@@ -16,18 +16,6 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group input-group-sm has-feedback">
-                            <?php
-                                echo form_label('Cari No. Pendaftaran', 'idPendaftaran', array(
-                                    'class' => "control-label"
-                                ));
-                                echo form_dropdown('idPendaftaran', '', '', array(
-                                    'class' => 'form-control',
-                                    'id' => 'idPendaftaran',
-                                    'style' => 'width: 100%;'
-                                ));
-                            ?>
-                        </div>
-                        <div class="form-group input-group-sm has-feedback">
                             <?php 
                                 echo form_label('No. RM', 'rmPasien', array(
                                     'class' => "control-label"
@@ -37,6 +25,7 @@
                                     'maxlength' => 24,
                                     'id' => 'rmPasien',
                                     'name' => 'rmPasien',
+                                    'value' => $data->rmPasien,
                                     'class' => 'form-control',
                                     'autocomplete' => 'off',
                                     'required' => '',
@@ -54,6 +43,7 @@
                                     'maxlength' => 255,
                                     'id' => 'namaPasien',
                                     'name' => 'namaPasien',
+                                    'value' => $data->namaPasien,
                                     'class' => 'form-control',
                                     'autocomplete' => 'off',
                                     'required' => '',
@@ -71,6 +61,7 @@
                                     'maxlength' => 500,
                                     'id' => 'alamatPasien',
                                     'name' => 'alamatPasien',
+                                    'value' => $data->alamatPasien,
                                     'class' => 'form-control',
                                     'autocomplete' => 'off',
                                     'required' => '',
@@ -88,6 +79,7 @@
                                     'maxlength' => 255,
                                     'id' => 'namaDokter',
                                     'name' => 'namaDokter',
+                                    'value' => $data->namaDokter,
                                     'class' => 'form-control',
                                     'autocomplete' => 'off',
                                     'required' => '',
@@ -123,6 +115,27 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="detail-tdk">
+													<?php
+														$i = 0;
+														if($tindakan){
+															foreach ($tindakan as $row) {
+																echo "<tr class='tindakan'>";
+																echo "<td><div class='input-group-sm'>
+																<input type='hidden' class='idTindakan' id='tindakan" . $i . "' name='idTindakan[]' value='". $row->idTindakan ."'><input type='text'  class='form-control' value='". $row->namaTindakan ."' readonly></div></td>";
+																echo "<td><div class='input-group-sm'>
+																<input type='text' class='form-control numbering' id='hrgtdk" .$i. "' name='biayaTindakan[]' autocomplete='off' value='". number_format($row->biayaTindakan) ."' readonly></div></td>";
+																echo "<td><div class='input-group-sm'>
+																<input type='number' class='form-control diskonTindakan' split='any' max=100 min=0 value='".$row->diskonTindakan."' id='disctdk" . $i . "' name='diskonTindakan[]' autocomplete='off' readonly></div></td>";
+																echo "<td><div class='input-group-sm'>
+																<input type='number' class='form-control qtyTindakan' min=1 value='".$row->qtyTindakan."' id='qtytdk" .$i. "' name='qtyTindakan[]' autocomplete='off' ></div></td>";
+																echo "<td><div class='input-group-sm'>
+																	<input type='text' class='form-control numbering biayaTindakan' id='sumhrgtdk"  . $i .  "' value='".(($row->biayaTindakan -($row->biayaTindakan * $row->diskonTindakan/100)) * $row->qtyTindakan)."' autocomplete='off' readonly>
+																</div></td>";
+																echo "<td><div class='input-group-sm'><input type='text'  class='form-control' value='". $row->namaPetugas ."' name='namaPetugas[]' readonly></div></td>";
+																echo "</tr>";
+															}
+														}
+													?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -368,6 +381,7 @@
                         ));
                     }
                 ?>
+                <a href="<?php echo site_url('pembayaran');?>" class="btn btn-sm btn-danger">Kembali</a>
                 <a href="<?php echo site_url('pembayaran/data');?>" class="btn btn-sm btn-info">Data Pembayaran</a>
             </div>
         </div>
@@ -392,94 +406,14 @@
         for (var i = 0; i < ptg.length; i++) {
             petugas = petugas + "<option value=" + ptg[i]['namaPetugas'] + ">" + ptg[i]['namaPetugas'] + "</option>";
         }
+        tdk = <?php echo $tindakanJSON; ?>;
+        for (var i = 0; i < tdk.length; i++) {
+            tindakan = tindakan + "<option value='" + tdk[i]['idTindakan'] + "' data-nama='" + tdk[i]['namaTindakan'] + "' data-harga='" + tdk[i]['biayaTindakan'] + "'>" + tdk[i]['namaTindakan'] + "</option>";
+        }
         jmlTagihan = new AutoNumeric('#jmlTagihan', 0, { modifyValueOnWheel : false });
         jmlPembayaran = new AutoNumeric('#jmlPembayaran', 0, { modifyValueOnWheel : false });
         jmlKembali = new AutoNumeric('#jmlKembali', 0, { modifyValueOnWheel : false });
         total();
-    });
-
-    $("#idPendaftaran").on("change", function(e) {
-        $("#rmPasien").val($(this).select2('data')[0]['rmPasien']);
-        $("#namaPasien").val($(this).select2('data')[0]['namaPasien']);
-        $("#alamatPasien").val($(this).select2('data')[0]['alamatPasien']);
-        $("#namaDokter").val($(this).select2('data')[0]['namaDokter']);
-		if($(this).select2('data')[0]['fotoPemeriksaan']){
-			$("#foto").hide();
-		}else{
-			$("#foto").show();
-		}
-        $('form').validator();
-        balance();
-        $("#detail-brg tr").empty();
-        $("#detail-tdk tr").empty();
-        getTindakan();
-        total();
-    });
-
-    function format(data) {
-        if (!data.id) { return data.text; }
-        var $data = $("<div style='color: #151e1e;'><label>No. Pendaftaran</label> : " + data.id + "<br>"+
-        "<label>Nama : </label>" + data.namaPasien + "<br><label>No. RM : </label>" + data.rmPasien + "<br><label>Alamat : </label>" + data.alamatPasien + "</div>");
-        return $data;
-    }
-
-    function getTindakan(){
-        tindakan = null;
-        $.ajax({
-            url : base_url + "pembayaran/gettindakan",
-            type : "POST",
-            data : { dr : $("#namaDokter").val()},
-            success : function(data){
-                if(data){                    
-                    for (var i = 0; i < data.length; i++) {
-                        tindakan = tindakan + "<option value='" + data[i]['idTindakan'] + "' data-nama='" + data[i]['namaTindakan'] + "' data-harga='" + data[i]['biayaTindakan'] + "'>" + data[i]['namaTindakan'] + "</option>";
-                    }
-                }else {
-                    tindakan = null;
-                }
-            },
-            error:function(){
-                tindakan = null;
-            }
-        });
-    }
-
-    $("#idPendaftaran").select2({
-        minimumInputLength: 1,
-        templateResult: format,
-        ajax:{
-            url: base_url + 'pembayaran/getblmbayar',
-            dataType: "json",
-            delay: 250,
-            type : 'POST',
-            data: function(params){
-                return{
-                    cari: params.term
-                };
-            },
-            processResults: function(data){
-                var results = [];
-
-                $.each(data, function(index, item){
-                    results.push({
-                        id: item.idPendaftaran,
-                        rmPasien : item.rmPasien,
-                        namaPasien : item.namaPasien,
-                        alamatPasien : item.alamatPasien,
-                        namaDokter : item.namaDokter,
-                        idDokter : item.idDokter,
-                        tamuDokter : item.tamuDokter,
-                        kelaminPasien : item.kelaminPasien,
-                        text : item.idPendaftaran,
-                        fotoPemeriksaan : item.fotoPemeriksaan
-                    });
-                });
-                return{
-                    results: results
-                };
-            },
-            cache: true,
-        },
     });
 
     function total(){

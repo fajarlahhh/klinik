@@ -62,6 +62,7 @@ class Mpembayaran extends CI_Model {
         $this->db->where('statPembayaran', 0);
         $this->db->group_start();
         $this->db->like('a.rmPasien', $cari);
+        $this->db->or_like('a.idPendaftaran', $cari);
         $this->db->or_like('namaPasien', $cari);
         $this->db->or_like('alamatPasien', $cari);
         $this->db->or_like('telpPasien', $cari);

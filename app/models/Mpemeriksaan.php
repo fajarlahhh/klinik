@@ -56,8 +56,10 @@ class Mpemeriksaan extends CI_Model {
     function get_blm_periksa($cari){
         $this->db->select('a.*, tamuDokter, namaPasien, alamatPasien, telpPasien, pekerjaanPasien, tempatLahirPasien, tglLahirPasien, kelaminPasien');
         $this->db->where('statPemeriksaan', 0);
+        $this->db->where('statPembayaran', 0);
         $this->db->group_start();
         $this->db->like('a.rmPasien', $cari);
+        $this->db->or_like('a.idPendaftaran', $cari);
         $this->db->or_like('namaPasien', $cari);
         $this->db->or_like('alamatPasien', $cari);
         $this->db->or_like('telpPasien', $cari);
@@ -74,6 +76,13 @@ class Mpemeriksaan extends CI_Model {
         $this->db->from('t_pemeriksaan_det a');
         return $this->db->get()->result();
     }
+
+    function get_tindakan($id){
+        $this->db->where('idPendaftaran', $id);
+        $this->db->from('t_pemeriksaan_tindakan a');
+        $this->db->order_by('urutanPembayaranTindakan', 'asc'); 
+        return $this->db->get()->result();
+    }
     
     function insert($data) {
         $save = $this->db->insert('t_pemeriksaan', $data);
@@ -88,6 +97,11 @@ class Mpemeriksaan extends CI_Model {
     
     function insert_detail($data) {
         $save = $this->db->insert('t_pemeriksaan_det', $data);
+        return $save;
+    }
+    
+    function insert_tindakan($data) {
+        $save = $this->db->insert('t_pemeriksaan_tindakan', $data);
         return $save;
     }
     

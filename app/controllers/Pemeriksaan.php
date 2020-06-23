@@ -108,9 +108,9 @@ class Pemeriksaan extends CI_Controller {
 							$this->mpemeriksaan->insert_detail(
 								$this->security->xss_clean(array(
 									'idPendaftaran' => $this->input->post('idPendaftaran'),
-									'diagnosaPemeriksaan' => $this->input->post('ketPemeriksaan')[$i],
+									'diagnosaPemeriksaan' => $this->input->post('lainnya')[$i],
 									'sifatPemeriksaan' => $this->input->post('sifatPemeriksaan')[$i],
-									'ketPemeriksaan' => ""
+									'ketPemeriksaan' => $this->input->post('ketPemeriksaan')[$i]
 									))
 								);
 						}else{
@@ -123,6 +123,22 @@ class Pemeriksaan extends CI_Controller {
 									))
 							);
 						}
+                    $i++;
+				}
+				
+                $i = 0;
+                foreach($this->input->post("idTindakan") as $key){
+                    $this->mpemeriksaan->insert_tindakan(
+                        $this->security->xss_clean(array(
+                            'urutanPembayaranTindakan' => $i,
+							'idPendaftaran' => $this->input->post('idPendaftaran'),
+                            'idTindakan' => $this->input->post('idTindakan')[$i],
+                            'diskonTindakan' => $this->input->post('diskonTindakan')[$i],
+                            'qtyTindakan' => $this->input->post('qtyTindakan')[$i],
+                            'biayaTindakan' => str_replace(",", "", $this->input->post('biayaTindakan')[$i]),
+                            'namaPetugas' => $this->input->post('namaPetugas')[$i] == 'Dokter'? $this->input->post('namaDokter'): $this->input->post('namaPetugas')[$i]
+                            ))
+                    );
                     $i++;
                 }
                 
@@ -148,10 +164,16 @@ class Pemeriksaan extends CI_Controller {
         $this->load->model('mdiagnosa');
         $this->load->model('mpendaftaran');
         $this->load->model('mrekammedis');
+        $this->load->model('mdatatindakan');
+        $this->load->model('mpetugas');
         $diagnosa = $this->mdiagnosa->get_all();
+        $tindakan = $this->mdatatindakan->get_all();
+        $petugas = $this->mpetugas->get_all();
 
         $content = array(
             'diagnosaJSON' => json_encode($diagnosa),
+            'tindakanJSON' => json_encode($tindakan),
+            'petugasJSON' => json_encode($petugas),
             'data' => $this->mpendaftaran->get_by_id($no),
             'rm' => $this->mrekammedis->get_rm($rm),
             'obat' => $this->mrekammedis->get_barang($rm),

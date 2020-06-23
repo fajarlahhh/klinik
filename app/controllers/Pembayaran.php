@@ -9,7 +9,16 @@ class Pembayaran extends CI_Controller {
     }
 
     public function index(){
-        $this->input();
+        $this->cari();
+    }
+
+    public function cari()
+    {
+        $this->sessioncheck->validasi('pemeriksaan', $this->redirect);
+        $this->load->view('include/header');
+        $this->load->view('include/sidebar');
+        $this->load->view('pelayanan/pembayaran/cari');
+        $this->load->view('include/footer');
     }
 
     public function data()
@@ -99,7 +108,7 @@ class Pembayaran extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($rs));
     }
 
-    public function input($action = null)
+    public function form($action = null)
     {
         $this->sessioncheck->validasi('pembayaran', $this->redirect);
         if($action){
@@ -203,13 +212,22 @@ class Pembayaran extends CI_Controller {
                 redirect();
             }
         }
+        $no = $this->input->get('no');
+        $rm = $this->input->get('rm');
         $this->load->model('mdatabarang');
         $this->load->model('mdatatindakan');
+        $this->load->model('mpendaftaran');
+        $this->load->model('mpemeriksaan');
         $this->load->model('mpetugas');
+        $this->load->model('mdatatindakan');
         $barang = $this->mdatabarang->get_by_tipe('a');
         $petugas = $this->mpetugas->get_all();
+        $tindakan = $this->mdatatindakan->get_all();
 
         $content = array(            
+            'data' => $this->mpendaftaran->get_by_id($no),
+            'tindakan' => $this->mpemeriksaan->get_tindakan($no),
+            'tindakanJSON' => json_encode($tindakan),
             'barangJSON' => json_encode($barang),
             'petugasJSON' => json_encode($petugas)
         );
