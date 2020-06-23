@@ -10,7 +10,7 @@
     </section>
     <!-- Main content -->
     <section class="content">
-		<form action="<?php echo site_url('pembayaran/input/action');?>" method="post" onSubmit='return cekStok()' data-toggle="validator" role="form" target="_blank" enctype="multipart/form-data">
+		<form action="<?php echo site_url('pembayaran/form/action');?>" method="post" onSubmit='return cekStok()' data-toggle="validator" role="form" target="_blank" enctype="multipart/form-data">
         <div class="box box-solid">
             <div class="box-body">
                 <div class="row">
