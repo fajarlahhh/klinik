@@ -15,6 +15,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
+					<input type="hidden" name="idPendaftaran" value="<?php echo $data->idPendaftaran?>">
                         <div class="form-group input-group-sm has-feedback">
                             <?php 
                                 echo form_label('No. RM', 'rmPasien', array(
@@ -502,7 +503,9 @@
         }
 
         if(sub == null)
-            setTimeout(function(){window.location.reload();}, 10);
+            setTimeout(function(){
+				window.location.href = base_url + "pembayaran";
+				}, 10);
         else
             return false;
     }
